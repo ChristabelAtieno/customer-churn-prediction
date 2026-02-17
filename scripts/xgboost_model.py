@@ -86,11 +86,15 @@ def xgbclassifier_model(df):
 
         #===mlflow parameters amd metrics==
         mlflow.log_params(rs.best_params_)
-        mlflow.log_metric("accuracy",acc)
-        mlflow.log_metric("recall",rec)
-        mlflow.log_metric("precision",prec)
-        mlflow.log_metric("f1_score",f1)
-        mlflow.log_metric("cv_mean_recall",scores.mean())
+
+        mlflow.log_metrics({
+            "accuracy": acc,
+            "recall": rec,
+            "precision": prec,
+            "f1_score": f1,
+            "cv_mean_recall": scores.mean()
+        })
+
 
         #===log and register the model
         mlflow.xgboost.log_model(best_estimators, 

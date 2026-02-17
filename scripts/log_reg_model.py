@@ -58,24 +58,26 @@ def log_regression_model(df):
         print("Mean: ", scores.mean())
 
         #===mlflow log metrics and parameter
-        mlflow.log_param("model_type", "Logistic Regression")
-        mlflow.log_param("solver", "liblinear")
-        mlflow.log_param("penalty", "l2")
-        mlflow.log_param("C", 1.0)
-        mlflow.log_param("class_weight", "balanced")
-        mlflow.log_param("max_iter", 1000)
+        mlflow.log_params({
+            "max_iter":1000,
+            "C":1.0,
+            "penalty":"l2",
+            "solver":"liblinear",
+            "class_weight":"balanced"
+        })
 
-        mlflow.log_metric("accuracy",acc)
-        mlflow.log_metric("recall",rec)
-        mlflow.log_metric("precision",prec)
-        mlflow.log_metric("f1_score",f1)
-        mlflow.log_metric("cv_mean_recall",scores.mean())
+        mlflow.log_metrics({
+            "accuracy": acc,
+            "recall": rec,
+            "precision": prec,
+            "f1_score": f1,
+            "cv_mean_recall": scores.mean()
+        })
+
 
         #---log model and register
-        mlflow.sklearn.log_model(
-            sk_model=lr,
-            artifact_path="logreg_churn_model",
-            registered_model_name="logreg_churn_model"
-        )
+        mlflow.sklearn.log_model(sk_model=lr, name="logreg_churn_model")
+            
+    
 
-        return lr, y_pred_lr, feature_importance, scores
+        return lr, y_pred_lr, feature_importance, scores, X_test, y_test    

@@ -5,7 +5,6 @@ from scripts.xgboost_model import xgbclassifier_model
 import mlflow
 
 if __name__== "__main__":
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
     mlflow.set_experiment("churn_model")
 
     data_path = 'data/Telco_Customer_Churn.csv'

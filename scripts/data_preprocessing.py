@@ -14,3 +14,4 @@ def pre_process_data(data):
     data['TotalCharges'] = pd.to_numeric(data['TotalCharges'], errors='coerce')
 
     return data
+
